@@ -31,30 +31,30 @@ function scheduleNextRun() {
         let stepsInCurrentMinute = getStepsInCurrentMinute();
         let activity = getActivity(stepsInCurrentMinute);
 
-        let ihs_data = require("Storage").read("ihs_data");
-        if (!ihs_data) {
-            ihs_data = {};
+        let hs_data = require("Storage").read("hs_data");
+        if (!hs_data) {
+            hs_data = {};
         } else {
-            ihs_data = JSON.parse(ihs_data);
+            hs_data = JSON.parse(hs_data);
         }
 
         let today = now.toISOString().split('T')[0]; // get the date part of the ISO string
-        if (!ihs_data[today]) {
-            ihs_data[today] = { active: 0, intense: 0 };
+        if (!hs_data[today]) {
+            hs_data[today] = { active: 0, intense: 0 };
         }
 
-        ihs_data[today].active += activity.active;
-        ihs_data[today].intense += activity.intense;
+        hs_data[today].active += activity.active;
+        hs_data[today].intense += activity.intense;
 
         // remove dates older than 7 days
         let sevenDaysAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
-        for (let date in ihs_data) {
+        for (let date in hs_data) {
             if (date < sevenDaysAgo) {
-                delete ihs_data[date];
+                delete hs_data[date];
             }
         }
 
-        require("Storage").write("ihs_data", JSON.stringify(ihs_data));
+        require("Storage").write("hs_data", JSON.stringify(hs_data));
         scheduleNextRun();
     }, msTillNextMinute);
 }
