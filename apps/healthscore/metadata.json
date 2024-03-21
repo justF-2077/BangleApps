@@ -10,6 +10,7 @@
   "storage": [
     {"name":"healthscore.app.js","url":"app.js"},
     {"name":"healthscore.boot.js","url":"boot.js"},
-    {"name":"healthscore.img","url":"app-icon.js","evaluate":true}
+    {"name":"healthscore.img","url":"app-icon.js","evaluate":true},
+    {"name":"healthscore.clkinfo.js","url":"clkinfo.js"}
   ]
 }
