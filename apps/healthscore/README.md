@@ -14,6 +14,7 @@ After installing the app, it will automatically start tracking your steps and cl
 - Classification of activity level into 'active' and 'intense'
 - Calculation of overall activity score based on WHO recommendations
 - Display of current activity score and breakdown of active and intense minutes
+- Utilizes the `clkinfo` module to export the current activity score in percentage for use with clock faces
 
 ## Controls
 
