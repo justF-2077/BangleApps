@@ -2,7 +2,6 @@ var Layout = require("Layout");
 
 // Read data from storage
 var hs_data = require("Storage").readJSON("hs_data") || {};
-var today = new Date().toISOString().slice(0, 10); // Current date in "YYYY-MM-DD" format
 
 // Calculate the health score for the last 7 days
 var totalActiveMinutes = 0;
@@ -19,7 +18,6 @@ for (var i = 0; i < 7; i++) {
     }
 }
 
-var totalMinutes = totalActiveMinutes + totalIntenseMinutes;
 var healthScore = ((totalActiveMinutes + totalIntenseMinutes * 2) / 150) * 100;
 
 // Create the layout

@@ -4,11 +4,13 @@
   "version":"0.01",
   "description": "Health Score calculates your health score in % based on your moderate and vigorous physical activity in the last 7 days.",
   "icon": "app.png",
-  "tags": "tool,system,health,clkinfo",
+  "tags": "tool,health,clkinfo",
+  "supports": ["BANGLEJS","BANGLEJS2"],
   "readme": "README.md",
   "storage": [
     {"name":"healthscore.app.js","url":"app.js"},
     {"name":"healthscore.boot.js","url":"boot.js"},
-    {"name":"healthscore.img","url":"app-icon.js","evaluate":true}
+    {"name":"healthscore.img","url":"app-icon.js","evaluate":true},
+    {"name":"healthscore.clkinfo.js","url":"clkinfo.js"}
   ]
 }
