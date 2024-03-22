@@ -29,7 +29,6 @@ exports.loadData = function () {
     dismissDate: new Date(1970),
     pauseDate: new Date(1970),
   },
-  
   require("Storage").readJSON("activityreminder.data.json") || {});
 
   data.stepsDate = new Date(typeof data.stepsDate === 'string' ? data.stepsDate : data.stepsDate.ms);
