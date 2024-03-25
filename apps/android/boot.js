@@ -46,8 +46,17 @@
           clearInterval(Bangle.findDeviceInterval);
           delete Bangle.findDeviceInterval;
         }
-        if (event.n) // Ignore quiet mode: we always want to find our watch
-          Bangle.findDeviceInterval = setInterval(_=>Bangle.buzz(),1000);
+        if (event.n) { // Ignore quiet mode: we always want to find our watch
+          let sound = true;
+          Bangle.findDeviceInterval = setInterval(_=>{
+            if (sound) {
+              Bangle.beep(1000, 4000);
+            } else {
+              Bangle.buzz(1000, 1);
+            }
+            sound = !sound;
+          }, 2000);
+        }
       },
       // {t:"musicstate", state:"play/pause",position,shuffle,repeat}
       "musicstate" : function() {
