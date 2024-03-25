@@ -4,6 +4,7 @@
   "version":"0.01",
   "description": "This application is a custom step counter for the Bangle.js smartwatch. It aims to improve the accuracy of the step count by discarding single steps that occur with more than 5 seconds in between, assuming that it is unlikely for single steps to occur within short time frames. This tries to filter out movements by the Bangle.JS that were falsely considered as steps.",
   "icon": "app.png",
+  "type": "bootloader",
   "tags": "tool,system,health",
   "supports" : ["BANGLEJS", "BANGLEJS2"],  
   "readme": "README.md",
