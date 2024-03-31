@@ -6,7 +6,7 @@ Bangle.on('step', function(steps) {
   if (lastStepTime) {
     let timeDiff = currentTime - lastStepTime;
 
-    if (timeDiff >= 5000) {
+    if (timeDiff >= 3000) {
       Bangle.setStepCount(steps - 1);
     }
   }
