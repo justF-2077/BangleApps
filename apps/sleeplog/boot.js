@@ -13,7 +13,7 @@ global.sleeplog = {
     minConsec: 18E5, // [ms] minimal time to count for consecutive sleep
     deepTh: 100, //     threshold for deep sleep
     lightTh: 200, //    threshold for light sleep
-    wearTemp: 28, //    temperature threshold to count as worn
+    wearTemp: 29, //    temperature threshold to count as worn
   }, require("Storage").readJSON("sleeplog.json", true) || {})
 };
 
@@ -171,9 +171,52 @@ if (sleeplog.conf.enabled) {
         if (sleeplog.isNotWorn()) {
           data.status = 1;
         }
+          
+        sleeplog.setStatus(data);
+
+        /*
+        sleeplog.checkIsWearing((isWearing, data) => {
+          // correct status
+          if (!isWearing) data.status = 1;
+          // set status
+          sleeplog.setStatus(data);
+        }, data);
+        */
+      } else {
+        // set status
+        sleeplog.setStatus(data);
       }
-      
-      sleeplog.setStatus(data);
+    },
+
+    // define function to check if the bangle is worn by using the hrm
+    checkIsWearing: function(returnFn, data) {
+      // create a temporary object to store data and functions
+      global.tmpWearingCheck = {
+        // define temporary hrm listener function to read the wearing status
+        hrmListener: hrm => tmpWearingCheck.isWearing = hrm.isWearing,
+        // set default wearing status
+        isWearing: false,
+      };
+
+      // enable HRM
+      Bangle.setHRMPower(true, "wearingCheck");
+      // wait until HRM is initialised
+      setTimeout((returnFn, data) => {
+        // add HRM listener
+        Bangle.on('HRM-raw', tmpWearingCheck.hrmListener);
+        // wait for two cycles (HRM working on 60Hz)
+        setTimeout((returnFn, data) => {
+          // remove listener and disable HRM
+          Bangle.removeListener('HRM-raw', tmpWearingCheck.hrmListener);
+          Bangle.setHRMPower(false, "wearingCheck");
+          // cache wearing status
+          var isWearing = tmpWearingCheck.isWearing;
+          // clear temporary object
+          delete global.tmpWearingCheck;
+          // call return function with status
+          returnFn(isWearing, data);
+        }, 34, returnFn, data);
+      }, 2500, returnFn, data);
     },
 
     // Determine if Bangle.JS is worn based on temperature (same strategy as in activityreminder)
