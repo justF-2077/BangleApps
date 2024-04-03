@@ -166,12 +166,11 @@ if (sleeplog.conf.enabled) {
       // check if changing to deep sleep from non sleeping
       if (data.status === 4 && sleeplog.status <= 2) {
         // check wearing status
-        sleeplog.checkIsWearing((isWearing, data) => {
-          // correct status
-          if (!isWearing) data.status = 1;
-          // set status
-          sleeplog.setStatus(data);
-        }, data);
+        if (Bangle.isCharging() || E.getTemperature() >= 28) {
+          data.status = 1;
+        }
+        
+        sleeplog.setStatus(data);
       } else {
         // set status
         sleeplog.setStatus(data);
