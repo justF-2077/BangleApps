@@ -86,12 +86,6 @@ module.exports = {
       "no-undef"
     ]
   },
-  "recorder/app.js": {
-    "hash": "64c838b63a756a712555ae54d0bae89f0373ce317c289f7b19a583d3f91d473b",
-    "rules": [
-      "no-unused-vars"
-    ]
-  },
   "podadrem/app.js": {
     "hash": "f7392e74974f69553aade2dcc07527b5d3b71a9b84e6dc5e0dd995e78dff8007",
     "rules": [
@@ -1002,12 +996,6 @@ module.exports = {
       "no-undef"
     ]
   },
-  "launch/app.js": {
-    "hash": "7d5b7d7f2adbe4c8c137f76b6560a06437ab142cfeffb3f0ff261f1250a6b687",
-    "rules": [
-      "no-undef"
-    ]
-  },
   "kitchen/stepo2.kit.js": {
     "hash": "b7660bef1a2560f23ff696b03d297cdd39936ca61c01b3d0a316d49f9cf72590",
     "rules": [
@@ -1080,12 +1068,6 @@ module.exports = {
       "no-undef"
     ]
   },
-  "hrm/heartrate.js": {
-    "hash": "beb8e433f10d3639b343b060f0d5583ea665445f92b2171daff7612eaf135596",
-    "rules": [
-      "no-undef"
-    ]
-  },
   "hebrew_calendar/app.js": {
     "hash": "3077d581b9fcf73816e265e61105a0692356b89e8ed41a82be51960ae26fc8de",
     "rules": [
@@ -1094,12 +1076,6 @@ module.exports = {
   },
   "heartzone/app.js": {
     "hash": "0eab7e375ba25992b335a2589f80ce341b830cf0ae206c21eec664883f4e7de0",
-    "rules": [
-      "no-undef"
-    ]
-  },
-  "health/app.js": {
-    "hash": "6d612eed04ee5a844be6ad47c326624cd3e204fecf1c28c99a57ca963b3d7a7b",
     "rules": [
       "no-undef"
     ]
@@ -1479,6 +1455,12 @@ module.exports = {
     "rules": [
       "no-undef",
       "no-unused-vars",
+      "no-cond-assign"
+    ]
+  },
+  "kineticscroll/boot.min.js": {
+    "hash": "a5106fa601cdbd2179e32265a8b77e2df62ba44ca0f4b94ce1e594c95a47e20d",
+    "rules": [
       "no-cond-assign"
     ]
   }
