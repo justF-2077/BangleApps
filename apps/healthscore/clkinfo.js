@@ -37,7 +37,7 @@
         hasRange : true,
         get: function () {
           return {
-            text: hsScore.toFixed(0) + "%",
+            text: (totalActiveMinutes + totalIntenseMinutes * 2),
             v : Math.floor(hsScore),
             min : 0,
             max : 100,
