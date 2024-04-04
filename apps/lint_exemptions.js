@@ -666,12 +666,6 @@ module.exports = {
       "no-undef"
     ]
   },
-  "taglaunch/app.js": {
-    "hash": "944689f0600e59bbe4d9e5e2684baeefabe4457a6edd938aae451dc4cd659ad3",
-    "rules": [
-      "no-undef"
-    ]
-  },
   "tabanchi/app.js": {
     "hash": "6ad6dc1d6b0f539f9f659d5773b5a26d19eb6dacafe7b4682469e6f3c412647e",
     "rules": [
@@ -794,12 +788,6 @@ module.exports = {
   },
   "regattatimer/app.js": {
     "hash": "8d579cc62d82599f776e5e230651f03481f18c3934f35f4fedfb6382a46db861",
-    "rules": [
-      "no-undef"
-    ]
-  },
-  "ratchet_launch/app.js": {
-    "hash": "592d432301d7836aa54e288d465ae8952ecb891d628f824ea9f62479a2a01631",
     "rules": [
       "no-undef"
     ]
