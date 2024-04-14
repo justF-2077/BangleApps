@@ -4,7 +4,7 @@
   if (hrm == 1 || hrm == 2) {
     function onHealth() {
       Bangle.setHRMPower(1, "health");
-      setTimeout(() => Bangle.setHRMPower(0, "health"), 1 * 60000); // give it exactly 1 minute detection time
+      setTimeout(() => Bangle.setHRMPower(0, "health"), hrm * 60000); // give it 1 minute detection time for 3 min setting and 2 minutes for 10 min setting
       if (hrm == 1) {
         function startMeasurement() {
           Bangle.setHRMPower(1, "health");
@@ -17,6 +17,10 @@
       }
     }
     Bangle.on("health", onHealth);
+    Bangle.on("HRM", (h) => {
+      if (h.confidence > 90 && Math.abs(Bangle.getHealthStatus().bpm - h.bpm) < 1) Bangle.setHRMPower(0, "health");
+    });
+    if (Bangle.getHealthStatus().bpmConfidence > 90) return;
     onHealth();
   } else Bangle.setHRMPower(!!hrm, "health");
 })();
