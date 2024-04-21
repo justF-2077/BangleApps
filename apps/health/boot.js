@@ -1,6 +1,7 @@
 (function() {
   var settings = require("Storage").readJSON("health.json", 1) || {};
   var hrm = 0|settings.hrm;
+  var accTimeout = false;
   if (hrm == 1 || hrm == 2) {
     function onHealth() {
       Bangle.setHRMPower(1, "health");
@@ -18,7 +19,13 @@
     }
     Bangle.on("health", onHealth);
     Bangle.on("HRM", (h) => {
-      if (h.confidence > 90 && Math.abs(Bangle.getHealthStatus().bpm - h.bpm) < 1) Bangle.setHRMPower(0, "health");
+      if (h.confidence > 90 && Math.abs(Bangle.getHealthStatus().bpm - h.bpm) < 1 && !accTimeout) {
+        accTimeout = true;
+        setTimeout(() => {
+          accTimeout = false;
+          Bangle.setHRMPower(0, "health");
+        }, 15000);
+      }
     });
     if (Bangle.getHealthStatus().bpmConfidence > 90) return;
     onHealth();
