@@ -1,9 +1,11 @@
 (function() {
   var settings = require("Storage").readJSON("health.json", 1) || {};
   var hrm = 0|settings.hrm;
+  var wearTemp = 27|settings.wearTemp;
   var accTimeout = false;
   if (hrm == 1 || hrm == 2) {
     function onHealth() {
+      if (E.getTemperature() < wearTemp) return;
       Bangle.setHRMPower(1, "health");
       setTimeout(() => Bangle.setHRMPower(0, "health"), hrm * 60000); // give it 1 minute detection time for 3 min setting and 2 minutes for 10 min setting
       if (hrm == 1) {
