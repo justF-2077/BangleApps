@@ -38,7 +38,7 @@ Bangle.on("health", health => {
   // ensure we write health info for *last* block
   var d = new Date(Date.now() - 590000);
 
-  const DB_RECORD_LEN = 4;
+  const DB_RECORD_LEN = 5;
   const DB_RECORDS_PER_HR = 6;
   const DB_RECORDS_PER_DAY = DB_RECORDS_PER_HR*24 + 1/*summary*/;
   const DB_RECORDS_PER_MONTH = DB_RECORDS_PER_DAY*31;
@@ -61,7 +61,8 @@ Bangle.on("health", health => {
     return String.fromCharCode(
       health.steps>>8,health.steps&255, // 16 bit steps
       health.bpm, // 8 bit bpm
-      Math.min(health.movement, 255)); // movement
+      Math.min(health.movement, 255), // movement
+      Math.round(E.getTemperature())); // temperature
   }
 
   var rec = getRecordIdx(d);
@@ -69,7 +70,7 @@ Bangle.on("health", health => {
   var f = require("Storage").read(fn);
   if (f) {
     var dt = f.substr(DB_HEADER_LEN+(rec*DB_RECORD_LEN), DB_RECORD_LEN);
-    if (dt!="\xFF\xFF\xFF\xFF") {
+    if (dt!="\xFF\xFF\xFF\xFF\xFF") {
       print("HEALTH ERR: Already written!");
       return;
     }
@@ -87,7 +88,7 @@ Bangle.on("health", health => {
   if (rec%DB_RECORDS_PER_DAY != DB_RECORDS_PER_DAY-2) return;
   // we're at the end of the day. Read in all of the data for the day and sum it up
   var sumPos = recordPos + DB_RECORD_LEN; // record after the current one is the sum
-  if (f.substr(sumPos, DB_RECORD_LEN)!="\xFF\xFF\xFF\xFF") {
+  if (f.substr(sumPos, DB_RECORD_LEN)!="\xFF\xFF\xFF\xFF\xFF") {
     print("HEALTH ERR: Daily summary already written!");
     return;
   }
@@ -95,7 +96,7 @@ Bangle.on("health", health => {
   var records = DB_RECORDS_PER_HR*24;
   for (var i=0;i<records;i++) {
     var dt = f.substr(recordPos, DB_RECORD_LEN);
-    if (dt!="\xFF\xFF\xFF\xFF") {
+    if (dt!="\xFF\xFF\xFF\xFF\xFF") {
       health.steps += (dt.charCodeAt(0)<<8)+dt.charCodeAt(1);
       var bpm = dt.charCodeAt(2);
       health.bpm += bpm;
