@@ -4,6 +4,7 @@
     stepGoal: 10000,
     stepGoalNotification: false,
     wearTemp: 27,
+    hrmDuration: 0
   }, require("Storage").readJSON("health.json", true) || {});
 
   function setSettings() {
