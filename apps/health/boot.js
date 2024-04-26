@@ -42,7 +42,7 @@ Bangle.on("health", health => {
   const DB_RECORDS_PER_HR = 6;
   const DB_RECORDS_PER_DAY = DB_RECORDS_PER_HR*24 + 1/*summary*/;
   const DB_RECORDS_PER_MONTH = DB_RECORDS_PER_DAY*31;
-  const DB_HEADER_LEN = 8;
+  const DB_HEADER_LEN = 10;
   const DB_FILE_LEN = DB_HEADER_LEN + DB_RECORDS_PER_MONTH*DB_RECORD_LEN;
 
   if (health && health.steps > 0) {
