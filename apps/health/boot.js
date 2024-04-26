@@ -2,6 +2,7 @@
   var settings = require("Storage").readJSON("health.json", 1) || {};
   var hrm = 0|settings.hrm;
   var wearTemp = 27|settings.wearTemp;
+  var hrmDuration = 0|settings.hrmDuration;
   var accTimeout = false;
   if (hrm == 1 || hrm == 2) {
     function onHealth() {
@@ -26,7 +27,7 @@
         setTimeout(() => {
           accTimeout = false;
           Bangle.setHRMPower(0, "health");
-        }, 15000);
+        }, hrmDuration);
       }
     });
     if (Bangle.getHealthStatus().bpmConfidence > 90) return;

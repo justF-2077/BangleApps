@@ -60,5 +60,16 @@
         setSettings();
       }
     },
+
+    /*LANG*/"Min. HRM duration": {
+      value: settings.hrmDuration,
+      min: 0,
+      max: 120,
+      step: 5,
+      onchange: v => {
+        settings.hrmDuration = v;
+        setSettings();
+      }
+    },
   });
 })
