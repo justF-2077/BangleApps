@@ -4,6 +4,7 @@
   "version":"0.01",
   "description": "A detailed description of my great app",
   "icon": "app.png",
+  "type": "bootloader",
   "tags": "",
   "supports" : ["BANGLEJS2"],  
   "readme": "README.md",
