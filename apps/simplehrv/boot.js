@@ -42,7 +42,7 @@ Bangle.on('HRM', function(hrm) {
         if (new Date().getTime() - firstReading < 15000) return;
 
         bpmValues.push(hrm.bpm);
-        if (bpmValues.length >= 30) {
+        if (bpmValues.length >= 60) {
             disableHRM = true;
             var today = new Date(Date.now()).toISOString().split('T')[0]
             var hrv_data = require("Storage").readJSON("hrv_" + today + ".json") || [];
