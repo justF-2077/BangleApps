@@ -19,7 +19,6 @@
   }
 
   if (settings.enabled) {    
-    let weather = require("Storage").readJSON('weather.json') || {};
     if (!settings.updated || settings.updated + settings.refresh * 1000 * 60 < Date.now()){
       setTimeout(pullWeather, 5000);
     }
