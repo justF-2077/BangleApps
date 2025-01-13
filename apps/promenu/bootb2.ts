@@ -1,5 +1,19 @@
 type ActualMenuItem = Exclude<Menu["..."], MenuOptions | undefined>;
 
+type PromenuSettings = {
+	naturalScroll: boolean,
+	wrapAround: boolean,
+};
+
+const enum Consts {
+  NAME_SCROLL_PAD = 5,
+}
+
+const settings = (require("Storage").readJSON("promenu.settings.json", true) || {}) as PromenuSettings;
+settings.naturalScroll ??= false;
+settings.wrapAround ??= true;
+
+
 E.showMenu = (items?: Menu): MenuInstance => {
   const RectRnd = (x1: number, y1: number, x2: number, y2: number, r: number) => {
     const pp = [];
@@ -60,15 +74,27 @@ E.showMenu = (items?: Menu): MenuInstance => {
       .setFontAlign(-1, -1);
 
     const vplain = v.indexOf("\0") < 0;
-    let truncated = true;
-    if(vplain && name.length >= 17 - v.length && typeof item === "object"){
-      g.drawString(name.substring(nameScroll, nameScroll + 12 - v.length) + "...", x + 3.7, y + 2.7);
-    }else if(vplain && name.length >= 15){
-      g.drawString(name.substring(nameScroll, nameScroll + 15) + "...", x + 3.7, y + 2.7);
-    }else{
-      g.drawString(name, x + 3.7, y + 2.7);
-      truncated = false;
+    let truncated = false;
+    let drawn = false;
+    if(vplain){
+      const isFunc = typeof item === "function";
+      const lim = isFunc ? 15 : 17 - v.length;
+
+      if(name.length >= lim){
+        const len = isFunc ? 15 : 12 - v.length;
+        const dots = name.length - nameScroll > len ? "..." : "";
+
+        g.drawString(
+          name.substring(nameScroll, nameScroll + len) + dots,
+          x + 3.7,
+          y + 2.7
+        );
+        drawn = true;
+        truncated = true;
+      }
     }
+    if(!drawn)
+      g.drawString(name, x + 3.7, y + 2.7);
 
     let xo = x2;
     if (selectEdit && idx === selected) {
@@ -138,7 +164,7 @@ E.showMenu = (items?: Menu): MenuInstance => {
           ) => {
             drawLine(name, v, item, idx, x, iy, nameScroll);
             nameScroll += 1;
-            if (nameScroll >= name.length - 5) nameScroll = 0;
+            if (nameScroll >= name.length - Consts.NAME_SCROLL_PAD) nameScroll = 0;
           }, 300, name, v, item, idx, x, iy);
         }
 
@@ -191,7 +217,11 @@ E.showMenu = (items?: Menu): MenuInstance => {
 
       } else {
         const lastSelected = selected;
-        selected = (selected + dir + /*keep +ve*/menuItems.length) % menuItems.length;
+        if (settings.wrapAround) {
+          selected = (selected + dir + /*keep +ve*/menuItems.length) % menuItems.length;
+        } else {
+          selected = E.clip(selected + dir, 0, menuItems.length - 1);
+        }
         scroller.scroll = selected;
         l.draw(Math.min(lastSelected, selected), Math.max(lastSelected, selected));
       }
@@ -224,10 +254,11 @@ E.showMenu = (items?: Menu): MenuInstance => {
     remove: () => {
       if (nameScroller) clearInterval(nameScroller);
       Bangle.removeListener("swipe", onSwipe);
+      options.remove?.();
     },
   } as SetUIArg<"updown">,
   dir => {
-    if (dir) l.move(dir);
+    if (dir) l.move(settings.naturalScroll ? -dir : dir);
     else l.select();
   });
 

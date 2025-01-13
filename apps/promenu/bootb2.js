@@ -1,3 +1,7 @@
+var _a, _b;
+var settings = (require("Storage").readJSON("promenu.settings.json", true) || {});
+(_a = settings.naturalScroll) !== null && _a !== void 0 ? _a : (settings.naturalScroll = false);
+(_b = settings.wrapAround) !== null && _b !== void 0 ? _b : (settings.wrapAround = true);
 E.showMenu = function (items) {
     var RectRnd = function (x1, y1, x2, y2, r) {
         var pp = [];
@@ -43,17 +47,21 @@ E.showMenu = function (items) {
             .setColor(hl ? g.theme.fgH : g.theme.fg)
             .setFontAlign(-1, -1);
         var vplain = v.indexOf("\0") < 0;
-        var truncated = true;
-        if (vplain && name.length >= 17 - v.length && typeof item === "object") {
-            g.drawString(name.substring(nameScroll, nameScroll + 12 - v.length) + "...", x + 3.7, y + 2.7);
+        var truncated = false;
+        var drawn = false;
+        if (vplain) {
+            var isFunc = typeof item === "function";
+            var lim = isFunc ? 15 : 17 - v.length;
+            if (name.length >= lim) {
+                var len = isFunc ? 15 : 12 - v.length;
+                var dots = name.length - nameScroll > len ? "..." : "";
+                g.drawString(name.substring(nameScroll, nameScroll + len) + dots, x + 3.7, y + 2.7);
+                drawn = true;
+                truncated = true;
+            }
         }
-        else if (vplain && name.length >= 15) {
-            g.drawString(name.substring(nameScroll, nameScroll + 15) + "...", x + 3.7, y + 2.7);
-        }
-        else {
+        if (!drawn)
             g.drawString(name, x + 3.7, y + 2.7);
-            truncated = false;
-        }
         var xo = x2;
         if (selectEdit && idx === selected) {
             xo -= 24 + 1;
@@ -160,7 +168,12 @@ E.showMenu = function (items) {
             }
             else {
                 var lastSelected = selected;
-                selected = (selected + dir + menuItems.length) % menuItems.length;
+                if (settings.wrapAround) {
+                    selected = (selected + dir + menuItems.length) % menuItems.length;
+                }
+                else {
+                    selected = E.clip(selected + dir, 0, menuItems.length - 1);
+                }
                 scroller.scroll = selected;
                 l.draw(Math.min(lastSelected, selected), Math.max(lastSelected, selected));
             }
@@ -189,13 +202,15 @@ E.showMenu = function (items) {
         mode: "updown",
         back: back,
         remove: function () {
+            var _a;
             if (nameScroller)
                 clearInterval(nameScroller);
             Bangle.removeListener("swipe", onSwipe);
+            (_a = options.remove) === null || _a === void 0 ? void 0 : _a.call(options);
         },
     }, function (dir) {
         if (dir)
-            l.move(dir);
+            l.move(settings.naturalScroll ? -dir : dir);
         else
             l.select();
     });
