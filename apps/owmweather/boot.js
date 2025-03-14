@@ -44,6 +44,4 @@
     setTimeout(loadIfDueAndReschedule, 5000);  // run 5 seconds after boot
     NRF.on('connect', loadIfDueAndReschedule);  // after reconnect, fetch the weather data right away if it's due
   }
-
-  NRF.on('connect', pullWeather);
 }
