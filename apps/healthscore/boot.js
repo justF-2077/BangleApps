@@ -1,3 +1,8 @@
+// Load settings for healthscore, providing default values
+var settings = Object.assign({
+    // Not loading activeThreshold and intenseThreshold to save RAM usage
+    countThreshold: 90, // Default minimum steps in a minute to be added to total counted steps
+}, require('Storage').readJSON("healthscore.json", true) || {});
 var stepsLastMin = Bangle.getStepCount();
 
 function getStepsInCurrentMinute() {
@@ -15,7 +20,7 @@ function scheduleNextRun() {
 
     setTimeout(() => {
         let stepsInCurrentMinute = getStepsInCurrentMinute();
-        if (stepsInCurrentMinute >= threshold) {
+        if (stepsInCurrentMinute >= settings.countThreshold) {
             let hs_data = require("Storage").read("hs_data.json");
             if (!hs_data) {
                 hs_data = {};

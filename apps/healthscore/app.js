@@ -1,3 +1,8 @@
+var settings = Object.assign({
+    countThreshold: 90, // Default minimum steps in a minute to be added to total counted steps
+    activeThreshold: 100, // Default minimum active minutes in a day to be counted
+    intenseThreshold: 130, // Default minimum intense minutes in a day to be counted
+}, require('Storage').readJSON("healthscore.json", true) || {});
 var Layout = require("Layout");
 
 // Read data from storage
@@ -13,8 +18,15 @@ for (var i = 0; i < 7; i++) {
     var dateString = date.toISOString().slice(0, 10);
     
     if (hs_data[dateString]) {
-        totalActiveMinutes += hs_data[dateString].active;
-        totalIntenseMinutes += hs_data[dateString].intense;
+        for (var j = 0; j < hs_data[dateString].length; j++) {
+            var steps = hs_data[dateString][j];
+            if (steps >= settings.activeThreshold) {
+                totalActiveMinutes += 1; // Count this minute as active
+            }
+            if (steps >= settings.intenseThreshold) {
+                totalIntenseMinutes += 1; // Count this minute as intense
+            }
+        }
     }
 }
 
