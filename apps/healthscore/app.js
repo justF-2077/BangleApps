@@ -1,7 +1,7 @@
 var Layout = require("Layout");
 
 // Read data from storage
-var hs_data = require("Storage").readJSON("hs_data") || {};
+var hs_data = require("Storage").readJSON("hs_data.json") || {};
 
 // Calculate the health score for the last 7 days
 var totalActiveMinutes = 0;

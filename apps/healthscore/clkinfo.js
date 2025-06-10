@@ -19,7 +19,7 @@
   }
 
   // Read health score data from storage
-  var hsData = require("Storage").readJSON("hs_data") || {};
+  var hsData = require("Storage").readJSON("hs_data.json") || {};
 
   // Calculate total active and intense minutes for the last 7 days
   var totalMinutes = calculateTotalMinutes(hsData);
