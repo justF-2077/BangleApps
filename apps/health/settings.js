@@ -2,9 +2,7 @@
   var settings = Object.assign({
     hrm: 0,
     stepGoal: 10000,
-    stepGoalNotification: false,
-    wearTemp: 27,
-    hrmDuration: 0
+    stepGoalNotification: false
   }, require("Storage").readJSON("health.json", true) || {});
 
   function setSettings() {
@@ -47,28 +45,6 @@
       value: "stepGoalNotification" in settings ? settings.stepGoalNotification : false,
       onchange: () => {
         settings.stepGoalNotification = !settings.stepGoalNotification;
-        setSettings();
-      }
-    },
-
-    /*LANG*/"Wear detection temperature": {
-      value: settings.wearTemp,
-      min: 20,
-      max: 40,
-      step: 0.5,
-      onchange: v => {
-        settings.wearTemp = v;
-        setSettings();
-      }
-    },
-
-    /*LANG*/"Min. HRM duration": {
-      value: settings.hrmDuration,
-      min: 0,
-      max: 120,
-      step: 5,
-      onchange: v => {
-        settings.hrmDuration = v;
         setSettings();
       }
     },
