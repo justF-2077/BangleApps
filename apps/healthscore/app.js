@@ -20,10 +20,10 @@ for (var i = 0; i < 7; i++) {
     if (hs_data[dateString]) {
         for (var j = 0; j < hs_data[dateString].length; j++) {
             var steps = hs_data[dateString][j];
-            if (steps >= settings.activeThreshold) {
-                totalActiveMinutes += 1; // Count this minute as active
-            } else if (steps >= settings.intenseThreshold) {
+            if (steps >= settings.intenseThreshold) {
                 totalIntenseMinutes += 1; // Count this minute as intense
+            } else if (steps >= settings.activeThreshold) {
+                totalActiveMinutes += 1; // Count this minute as active
             }
         }
     }
