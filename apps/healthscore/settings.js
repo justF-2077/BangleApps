@@ -18,7 +18,7 @@
     "< Back" : () => back(),
     'Count Threshold': {
       value: 0|settings.countThreshold,
-      min: 0, max: 200, step: 10,
+      min: 0, max: 300, step: 1,
       onchange: v => {
         settings.countingThreshold = v;
         writeSettings();
@@ -26,7 +26,7 @@
     },
     'Active Threshold': {
       value: 0|settings.activeThreshold,
-      min: 0, max: 300, step: 10,
+      min: 0, max: 300, step: 1,
       onchange: v => {
         settings.activeThreshold = v;
         writeSettings();
@@ -34,7 +34,7 @@
     },
     'Intense Threshold': {
       value: 0|settings.intenseThreshold,
-      min: 0, max: 300, step: 10,
+      min: 0, max: 300, step: 1,
       onchange: v => {
         settings.intenseThreshold = v;
         writeSettings();

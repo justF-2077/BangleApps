@@ -8,7 +8,6 @@ var Layout = require("Layout");
 // Read data from storage
 var hs_data = require("Storage").readJSON("hs_data.json");
 hs_data = require("healthscore").getData(hs_data, settings);
-var healthScore = ((hs_data.a + hs_data.i * 2) / 150) * 100;
 
 // Create the layout
 var layout = new Layout({
