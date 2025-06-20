@@ -1,7 +1,9 @@
 // Load settings for healthscore, providing default values
 var settings = Object.assign({
-    // Not loading activeThreshold and intenseThreshold to save RAM usage
     countThreshold: 90, // Default minimum steps in a minute to be added to total counted steps
+    activeThreshold: 100, // Default minimum active minutes in a day to be counted
+    intenseThreshold: 130, // Default minimum intense minutes in a day to be counted
+    saveStepCounts: true, // Whether to save all step counts above the count threshold
 }, require('Storage').readJSON("healthscore.json", true) || {});
 var stepsLastMin = Bangle.getStepCount();
 
@@ -30,10 +32,18 @@ function scheduleNextRun() {
 
             let today = now.toISOString().split('T')[0]; // get the date part of the ISO string
             if (!hs_data[today]) {
-                hs_data[today] = [];
+                hs_data[today] = { "t": [], "i": 0, "a": 0 };
             }
 
-            hs_data[today].push(stepsInCurrentMinute);
+            if (settings.saveStepCounts) {
+                hs_data[today].t.push(stepsInCurrentMinute);
+            } else {
+                if (stepsInCurrentMinute >= settings.intenseThreshold) {
+                    hs_data[today].i += 1; // increment intense minutes
+                } else if (stepsInCurrentMinute >= settings.activeThreshold) {
+                    hs_data[today].a += 1; // increment active minutes
+                }
+            }
 
             // remove dates older than 7 days
             let sevenDaysAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];

@@ -5,6 +5,7 @@
     countThreshold: 90, // Default minimum steps in a minute to be added to total counted steps
     activeThreshold: 100, // Default minimum active minutes in a day to be counted
     intenseThreshold: 130, // Default minimum intense minutes in a day to be counted
+    saveStepCounts: true, // Whether to save all step counts above the count threshold
   }, require('Storage').readJSON(FILE, true) || {});
 
   function writeSettings() {
@@ -36,6 +37,13 @@
       min: 0, max: 300, step: 10,
       onchange: v => {
         settings.intenseThreshold = v;
+        writeSettings();
+      }
+    },
+    'Save Step Counts > Threshold': {
+      value: !!settings.saveStepCounts,
+      onchange: v => {
+        settings.saveStepCounts = v;
         writeSettings();
       }
     },

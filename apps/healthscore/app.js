@@ -18,8 +18,8 @@ for (var i = 0; i < 7; i++) {
     var dateString = date.toISOString().slice(0, 10);
     
     if (hs_data[dateString]) {
-        for (var j = 0; j < hs_data[dateString].length; j++) {
-            var steps = hs_data[dateString][j];
+        for (var j = 0; j < hs_data[dateString].t.length; j++) {
+            var steps = hs_data[dateString].t[j];
             if (steps >= settings.activeThreshold) {
                 totalActiveMinutes += 1; // Count this minute as active
             }
@@ -27,6 +27,9 @@ for (var i = 0; i < 7; i++) {
                 totalIntenseMinutes += 1; // Count this minute as intense
             }
         }
+        // Add the minutes from the active and intense counts
+        totalActiveMinutes += hs_data[dateString].a;
+        totalIntenseMinutes += hs_data[dateString].i;
     }
 }
 
@@ -38,7 +41,9 @@ var layout = new Layout({
         { type: "txt", font: "25%", label: healthScore.toFixed(1) + "%", fillx: 1 },
         { type: "txt", font: "15%", label: "= " + (totalActiveMinutes + totalIntenseMinutes * 2) + "/150", fillx: 1 },
         { type: "txt", font: "10%", label: "\nActive: " + totalActiveMinutes + " min\nIntense: " + totalIntenseMinutes + " min", fillx: 1 },
-    ], lazy: true
+    ],
+    lazy: true,
+    back: Bangle.showClock,
 });
 
 // Render the layout
