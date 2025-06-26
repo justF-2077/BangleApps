@@ -38,7 +38,7 @@ hs_data = hsGetData(hs_data, settings);
 // Create the layout
 var layout = new Layout({
     type: "v", c: [
-        { type: "txt", font: "25%", label: ((hs_data.a + hs_data.i * 2)/150).toFixed(0) + "%", fillx: 1 },
+        { type: "txt", font: "25%", label: (((hs_data.a + hs_data.i * 2)/150)*100).toFixed(0) + "%", fillx: 1 },
         { type: "txt", font: "15%", label: "= " + (hs_data.a + hs_data.i * 2) + "/150", fillx: 1 },
         { type: "txt", font: "10%", label: "\nActive: " + hs_data.a + " min\nIntense: " + hs_data.i + " min", fillx: 1 },
     ],
