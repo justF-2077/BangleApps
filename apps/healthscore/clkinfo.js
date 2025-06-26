@@ -22,7 +22,7 @@
         get: function () {
           return {
             text: (hs_data.a + hs_data.i * 2),
-            v : Math.floor(hsScore),
+            v : hsScore.toFixed(0),
             min : 0,
             max : 100,
             img: atob("GBiBAAAAAAAAAAEAQAOBwAfD4A/n8B//+D///H///v///3///z///B//+A//8Af/4AP/wAH/gAD/AAB+AAA8AAAYAAAAAAAAAAAAAA=="),
