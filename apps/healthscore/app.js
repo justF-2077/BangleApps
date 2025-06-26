@@ -2,6 +2,7 @@ var settings = Object.assign({
     countThreshold: 90, // Default minimum steps in a minute to be added to total counted steps
     activeThreshold: 100, // Default minimum active minutes in a day to be counted
     intenseThreshold: 130, // Default minimum intense minutes in a day to be counted
+    saveStepCounts: true, // Whether to save all step counts above the count threshold
 }, require('Storage').readJSON("healthscore.json", true) || {});
 var Layout = require("Layout");
 
@@ -12,7 +13,7 @@ hs_data = require("healthscore").getData(hs_data, settings);
 // Create the layout
 var layout = new Layout({
     type: "v", c: [
-        { type: "txt", font: "25%", label: healthScore.toFixed(0) + "%", fillx: 1 },
+        { type: "txt", font: "25%", label: ((hs_data.a + hs_data.i * 2)/150).toFixed(0) + "%", fillx: 1 },
         { type: "txt", font: "15%", label: "= " + (hs_data.a + hs_data.i * 2) + "/150", fillx: 1 },
         { type: "txt", font: "10%", label: "\nActive: " + hs_data.a + " min\nIntense: " + hs_data.i + " min", fillx: 1 },
     ],

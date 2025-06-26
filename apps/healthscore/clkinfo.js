@@ -1,4 +1,11 @@
 (function () {
+  var settings = Object.assign({
+    countThreshold: 90, // Default minimum steps in a minute to be added to total counted steps
+    activeThreshold: 100, // Default minimum active minutes in a day to be counted
+    intenseThreshold: 130, // Default minimum intense minutes in a day to be counted
+    saveStepCounts: true, // Whether to save all step counts above the count threshold
+  }, require('Storage').readJSON("healthscore.json", true) || {});
+
   // Read health score data from storage
   var hs_data = require("Storage").readJSON("hs_data.json");
   hs_data = require("healthscore").getData(hs_data, settings);
