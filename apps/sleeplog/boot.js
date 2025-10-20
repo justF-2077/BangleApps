@@ -165,9 +165,12 @@ if (global.sleeplog.conf.enabled) {
       if(data.hrm){
         
         if (!Bangle.isCharging()) {
-          if (data.heartRate <= global.sleeplog.conf.hrmDeepTh) {
+          var conf = global.sleeplog.conf;
+          var checkMovement = !!conf.hrmAndMove;
+
+          if (data.heartRate <= conf.hrmDeepTh && (!checkMovement || data.movement <= conf.deepTh)) {
             data.status = 4; // deep sleep
-          } else if (data.heartRate <= global.sleeplog.conf.hrmLightTh) {
+          } else if (data.heartRate <= conf.hrmLightTh && (!checkMovement || data.movement <= conf.lightTh)) {
             data.status = 3; // light sleep
           } else {
             data.status = 2; // awake
