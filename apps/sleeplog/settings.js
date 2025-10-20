@@ -474,11 +474,19 @@
           writeSetting();
         }
       },
+      /*LANG*/"Require HRM & Movement": {
+        value: !!settings.hrmAndMove,
+        onchange: v => {
+          settings.hrmAndMove = v;
+          writeSetting();
+        }
+      },
         /*LANG*/"Reset to Default": () => {
           settings.maxAwake = defaults.maxAwake;
           settings.minConsec = defaults.minConsec;
           settings.breakToD = defaults.breakToD;
           settings.appTimeout = defaults.appTimeout;
+          settings.hrmAndMove = false;
 
           writeSetting();
           showOtherSettings();
