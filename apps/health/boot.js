@@ -1,6 +1,7 @@
 { // Handle turning HRM on/off at the right times
   let settings = require("Storage").readJSON("health.json", 1) || {};
   let hrm = 0|settings.hrm;
+  let accTimeout = false;
   if (hrm == 1 || hrm == 2) { // 1=every 3 minutes, 2=every 10 minutes
     let onHealth = function(h) {
       function startMeasurement() {
@@ -22,7 +23,13 @@
     Bangle.on("health", onHealth);
     Bangle.on("HRM", (h) => {
       // as soon as we have a decent HRM reading, turn it off
-      if (h.confidence > 90 && Math.abs(Bangle.getHealthStatus().bpm - h.bpm) < 1) Bangle.setHRMPower(0, "health");
+      if (h.confidence > 90 && Math.abs(Bangle.getHealthStatus().bpm - h.bpm) < 1 && !accTimeout) {
+        accTimeout = true;
+        setTimeout(() => {
+          accTimeout = false;
+          Bangle.setHRMPower(0, "health");
+        }, 15000);
+      }
     });
     if (Bangle.getHealthStatus().bpmConfidence < 90) onHealth(); // if we didn't have a good HRM confidence already, start HRM now
   } else Bangle.setHRMPower(!!hrm, "health"); // if HRM>2, keep it on permanently
